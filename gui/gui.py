@@ -5,11 +5,12 @@ from dynamic_updater import DynamicUpdater
 
 from PIL import Image, ImageTk
 
-# GREEN = "#3E7D5D"
-GREEN = "#127958"
+GREEN = "#3E7D5D"
+# GREEN = "#127958"
 GOLD  = "#D4AF37"
 WHITE = "#F5F5F5"
-DGRAY = "#141414"
+# DGRAY = "#141414"
+DGRAY = "#090909"
 LGRAY = "#A9A9A9"
 
 class PrayerTimeGUI(ttk.Toplevel):
