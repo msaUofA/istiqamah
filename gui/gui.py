@@ -1,4 +1,3 @@
-import tkinter as tk
 import ttkbootstrap as ttk
 from prayer_times import read_prayer_times
 from dynamic_updater import DynamicUpdater
@@ -159,10 +158,10 @@ class PrayerTimeEntry(ttk.Frame):
                 ttk.Label(self).pack(expand=True, fill='both')
 
         if prayer_name == 'Dhuhr':
-            ttk.Label(self, text="Iqamah: 2:00PM", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
+            ttk.Label(self, text="Iqamah: 1:00PM", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
 
         if prayer_name == 'Asr':
-            ttk.Label(self, text="Iqamah: Asr + 10 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
+            ttk.Label(self, text="Iqamah: Asr + 5 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
 
         if prayer_name == 'Maghrib':
             ttk.Label(self, text="Iqamah: Maghrib + 5 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
