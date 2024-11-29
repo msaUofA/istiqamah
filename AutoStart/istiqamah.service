@@ -1,0 +1,16 @@
+[Unit]
+Description = Run Istiqamah GUI on Boot # comments
+After = graphical.target # comments
+Wants = graphical.target # comments
+
+{Service]
+ExecStart = /usr/bin/python/home/msauofa/Istiqamah/gui/main.py
+WorkingDirectory = /home/msauofa/Istiqamah/gui
+StandardOutput = inherit
+StandardError = inherit
+Restart = always
+RestartSec = 10
+user = msauofa
+
+[Install]
+WantedBy = multi-user.target
