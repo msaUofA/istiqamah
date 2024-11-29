@@ -14,7 +14,7 @@ Restart = always
 RestartSec = 30
 User = msauofa
 Environment = DISPLAY=:0
-Execstop kill -9 python
+Execstop = kill -9 python
 
 
 [Install]
