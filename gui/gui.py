@@ -58,8 +58,8 @@ class TopFrame(ttk.Frame):
 
         title_label = ttk.Label(title_frame, image=self.logo, background=DGRAY, anchor='center')
 
-        date = ttk.Label(title_frame, font=('Helvetica', 20, 'bold', 'italic'), foreground=GREEN, anchor='e')
-        hijri_date = ttk.Label(title_frame, font=('Helvetica', 20, 'bold', 'italic'), foreground=GREEN)
+        date = ttk.Label(title_frame, font=('Helvetica', 20, 'bold', 'italic'), foreground=GREEN, anchor='n')
+        hijri_date = ttk.Label(title_frame, font=('Helvetica', 20, 'bold', 'italic'), foreground=GREEN, anchor='n')
 
         live_clock = ttk.Label(clock_frame, font=('Times New Roman', 40, 'bold'), foreground=GOLD, anchor='n')
         countdown = ttk.Label(clock_frame, font=("Times New Roman", 100, 'bold'), foreground=GOLD, anchor='n')
@@ -67,7 +67,7 @@ class TopFrame(ttk.Frame):
         def pack_widgets():
             background_label.place(x=0, y=0, relwidth=1, relheight=1)
             date.pack(side='left', expand=True, fill='x')
-            title_label.pack(side='left', expand=True, fill='x', padx=200)
+            title_label.pack(side='left', expand=True, fill='x', padx=150)
             hijri_date.pack(side='left', expand=True, fill='x')
             countdown.pack(expand=True, fill='both')
             live_clock.pack(expand=True, fill='both')
@@ -152,22 +152,22 @@ class PrayerTimeEntry(ttk.Frame):
         self.prayer_time_label.pack(expand=True, fill='both')
 
         if prayer_name == 'Fajr':
-            ttk.Label(self, text="Iqamah: 7:00AM", font=('Times New Roman', 16, 'bold'), anchor='center',foreground=LGRAY).pack(expand=True, fill='both')
+            ttk.Label(self, text="Iqamah: 7:00AM", font=('Times New Roman', 16, 'bold'), anchor='center',foreground=WHITE).pack(expand=True, fill='both')
 
         if prayer_name == 'Sunrise':
                 ttk.Label(self).pack(expand=True, fill='both')
 
         if prayer_name == 'Dhuhr':
-            ttk.Label(self, text="Iqamah: 1:00PM", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
+            ttk.Label(self, text="Iqamah: 1:00PM", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=WHITE).pack(expand=True, fill='both')
 
         if prayer_name == 'Asr':
-            ttk.Label(self, text="Iqamah: Asr + 5 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
+            ttk.Label(self, text="Iqamah: Asr + 5 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=WHITE).pack(expand=True, fill='both')
 
         if prayer_name == 'Maghrib':
-            ttk.Label(self, text="Iqamah: Maghrib + 5 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
+            ttk.Label(self, text="Iqamah: Maghrib + 5 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=WHITE).pack(expand=True, fill='both')
 
         if prayer_name == 'Isha':
-            ttk.Label(self, text="Iqamah: Isha + 10 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=LGRAY).pack(expand=True, fill='both')
+            ttk.Label(self, text="Iqamah: Isha + 10 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=WHITE).pack(expand=True, fill='both')
 
 
     def update_time(self, new_prayer_time):
