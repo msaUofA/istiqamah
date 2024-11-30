@@ -104,7 +104,7 @@ class BottomFrame(ttk.Frame):
         background_label = ttk.Label(main_frame, background=GREEN)
         prayer_times_frame = ttk.Frame(main_frame)
 
-        fajr = PrayerTimeEntry(prayer_times_frame, 'uacacm...', "0")
+        fajr = PrayerTimeEntry(prayer_times_frame, 'Fajr', "0")
         add_separator(prayer_times_frame)
 
         sunrise = PrayerTimeEntry(prayer_times_frame, 'Sunrise', "0")
