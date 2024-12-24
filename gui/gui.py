@@ -11,6 +11,8 @@ WHITE = "#F5F5F5"
 DGRAY = "#141414"
 LGRAY = "#A9A9A9"
 
+
+
 class PrayerTimeGUI(ttk.Toplevel):
     def __init__(self):
         # Main window

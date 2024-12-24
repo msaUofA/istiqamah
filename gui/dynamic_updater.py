@@ -117,7 +117,7 @@ class DynamicUpdater:
         hours, remainder = divmod(time_difference, 3600)
         minutes, seconds = divmod(remainder, 60)
 
-        countdown_str_prayer = f"{next_prayer:2} {'is':2} {'in':2} : "
+        countdown_str_prayer = f"{next_prayer:2} {'is':2} {'in':2}: "
         countdown_str_time = f"{int(hours):02} : {int(minutes):02} : {int(seconds):02}"
 
         countdown_prayer_label.config(text=countdown_str_prayer.upper())
