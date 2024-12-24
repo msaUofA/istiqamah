@@ -1,4 +1,5 @@
 import ttkbootstrap as ttk
+import time
 from prayer_times import read_prayer_times
 from dynamic_updater import DynamicUpdater
 from PIL import Image, ImageTk
@@ -9,10 +10,6 @@ GOLD  = "#D4AF37"
 WHITE = "#F5F5F5"
 DGRAY = "#141414"
 LGRAY = "#A9A9A9"
-
-background_style = ttk.Style()
-background_style.configure('Frame', background=DGRAY)
-
 
 class GUI(ttk.Toplevel):
   def __init__(self):
@@ -36,7 +33,7 @@ class LeftFrame(ttk.Frame):
     super().__init__(parent)
     self.updater = updater
     self.place(relx=0, rely=0, relheight=1, relwidth=0.43)
-    self.label = ttk.Label(self, text='Left Frame', font=('Helvetica', 24), background=DGRAY).pack(fill='both', expand=True) 
+    self.label = ttk.Label(self, text='Left Frame', font=('Helvetica', 24), background=GREEN).pack(fill='both', expand=True) 
 
 class RightFrame(ttk.Frame):
   def __init__(self, parent, updater):
@@ -44,40 +41,50 @@ class RightFrame(ttk.Frame):
     self.updater = updater
     self.place(relx=0.43, rely=0, relheight=1, relwidth=0.60)
     self.logo = ImageTk.PhotoImage((Image.open('Assets/msalogo.png').resize((240, 120))))
-    self.widgets()
-  
-  def widgets(self):
+    self.countdown_widgets()
+      
+
+  def countdown_widgets(self):
 
     main_frame = ttk.Frame(self)
-    main_background = ttk.Label(main_frame, background=GREEN)
+    main_background = ttk.Label(main_frame, background=DGRAY)
+
+    # Logo Frame
+
+    logo_frame = ttk.Frame(main_frame)
+    logo_label = ttk.Label(logo_frame, image=self.logo, background=DGRAY, anchor='center')
 
     # Countdown Frame
     countdown_frame = ttk.Frame(main_frame)
-    countdown_prayer = ttk.Label(countdown_frame, font=("Helvetica", 70, 'bold'), foreground=GOLD, background=GREEN, anchor='center')
-    countdown_time = ttk.Label(countdown_frame, font=("Helvetica", 65, 'bold'), foreground=GOLD, background=GREEN, anchor='center')
+    countdown_prayer = ttk.Label(countdown_frame, font=("Helvetica", 70, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
+    countdown_time = ttk.Label(countdown_frame, font=("Helvetica", 65, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
 
+    # Countdown Headers Frame
     countdown_headers_frame = ttk.Frame(main_frame)
-    countdown_headers_frame.background = ttk.Label(countdown_headers_frame, background=GOLD)
-    hour_header = ttk.Label(countdown_headers_frame, text='Hours', font=('Helvetica', 20, 'bold'), foreground=GREEN, background=WHITE)
-    minute_header = ttk.Label(countdown_headers_frame, text='Minutes', font=('Helvetica', 20, 'bold'), foreground=GREEN, background=WHITE)
-    second_header = ttk.Label(countdown_headers_frame, text='Seconds', font=('Helvetica', 20, 'bold'), foreground=GREEN, background=WHITE)
+    countdown_headers_frame.background = ttk.Label(countdown_headers_frame, background=DGRAY)
+    hour_header = ttk.Label(countdown_headers_frame, text='HOURS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
+    minute_header = ttk.Label(countdown_headers_frame, text='MINUTES', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
+    second_header = ttk.Label(countdown_headers_frame, text='SECONDS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
 
     def pack_widgets():
       main_frame.pack(fill='both', expand=True)
       main_background.pack(fill='both', expand=True)
+      logo_frame.place(relx=0, rely=0, relheight=0.25, relwidth=1)
+      logo_label.pack(fill='both', expand=True)
       countdown_frame.place(relx=0, rely=0.34, relheight=0.24, relwidth=1)
       countdown_prayer.pack(side='top', fill='x') 
       countdown_time.pack(fill='x') 
-      countdown_headers_frame.place(relx=0, rely=0.58, relheight=0.1, relwidth=1)
+      countdown_headers_frame.place(relx=0, rely=0.60, relheight=0.2, relwidth=1)
       countdown_headers_frame.background.pack(fill='both', expand=True)
-
+      hour_header.place(relx= 0.239, rely=0, relheight=0.28, relwidth=0.13)
+      minute_header.place(relx=0.439, rely=0, relheight=0.28, relwidth=0.13)
+      second_header.place(relx=0.639, rely=0, relheight=0.28, relwidth=0.13)
     
     def dynamic_update():
       self.updater.countdown(countdown_prayer, countdown_time)
     
     pack_widgets()
     dynamic_update()
-
 
 
 
