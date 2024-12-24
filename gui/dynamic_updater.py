@@ -110,18 +110,21 @@ class DynamicUpdater:
         # Schedule next update
         parent_widget.after(1000, lambda: self.update_prayer_times(parent_widget, prayer_time_entries))
 
-    def countdown(self, countdown_label):
+    def countdown(self, countdown_prayer_label, countdown_time_label):
         next_prayer, time_difference = self.next_prayer_time()
         time_difference -= 0
 
         hours, remainder = divmod(time_difference, 3600)
         minutes, seconds = divmod(remainder, 60)
 
-        countdown_str = f"{next_prayer} in: {int(hours):02}:{int(minutes):02}:{int(seconds):02}"
+        countdown_str_prayer = f"{next_prayer:2} {'is':2} {'in':2} : "
+        countdown_str_time = f"{int(hours):02} : {int(minutes):02} : {int(seconds):02}"
 
-        countdown_label.config(text=countdown_str)
+        countdown_prayer_label.config(text=countdown_str_prayer.upper())
+        countdown_time_label.config(text=countdown_str_time)
 
-        countdown_label.after(1000, lambda: self.countdown(countdown_label))
+        countdown_time_label.after(1000, lambda: self.countdown(countdown_prayer_label, countdown_time_label))
+
 
     def next_prayer_time(self):
         current_time = datetime.now()
