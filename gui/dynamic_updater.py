@@ -51,11 +51,11 @@ class DynamicUpdater:
         current_date = datetime.now().strftime("%A, %B %d, %Y")
         current_date_str_len = len(current_date)
 
-        hijri_date_obj = convert.Gregorian(datetime.now().year, datetime.now().month, datetime.now().day).to_hijri()
-        hijri_date_str = f"{hijri_date_obj.day} {hijri_date_obj.month_name()} {hijri_date_obj.year} AH"
+        #hijri_date_obj = convert.Gregorian(datetime.now().year, datetime.now().month, datetime.now().day).to_hijri()
+        #hijri_date_str = f"{hijri_date_obj.day} {hijri_date_obj.month_name()} {hijri_date_obj.year} AH"
 
         live_date.config(text=f'{current_date:>{current_date_str_len}}')
-        live_hijri_date.config(text=f'{hijri_date_str:<{current_date_str_len}}')
+        #live_hijri_date.config(text=f'{hijri_date_str:<{current_date_str_len}}')
         live_date.after(1000, lambda: self.update_date(live_date, live_hijri_date))
 
     def compute_iqamah_times(self):
@@ -94,21 +94,21 @@ class DynamicUpdater:
         seconds_until_midnight = (midnight - now).total_seconds()
         self.root.after(int(seconds_until_midnight * 1000), self.compute_iqamah_times)
 
-    def update_prayer_times(self, parent_widget, prayer_time_entries):
+    def update_prayer_times(self, prayer_time_entries):
         current_month = datetime.now().strftime('%B')
         current_day = int(datetime.now().strftime('%d'))
 
         today_prayer_times = self.prayer_times[current_month][current_day]
 
-        prayer_time_entries['Fajr'].update_time(today_prayer_times['Fajr'].replace("AM", "").replace("PM", "").strip())
-        prayer_time_entries['Sunrise'].update_time(today_prayer_times['Sunrise'].replace("AM", "").replace("PM", "").strip())
-        prayer_time_entries['Dhuhr'].update_time(today_prayer_times['Dhuhr'].replace("AM", "").replace("PM", "").strip())
-        prayer_time_entries['Asr'].update_time(today_prayer_times['Asr'].replace("AM", "").replace("PM", "").strip())
-        prayer_time_entries['Maghrib'].update_time(today_prayer_times['Maghrib'].replace("AM", "").replace("PM", "").strip())
-        prayer_time_entries['Isha'].update_time(today_prayer_times['Isha'].replace("AM", "").replace("PM", "").strip())
+        prayer_time_entries['Fajr'].config(text = f"{'Fajr'}{today_prayer_times['Fajr'].replace('AM', '').replace('PM', '').strip()}")
+        prayer_time_entries['Sunrise'].config(text = f"{'Sunrise':<10}{today_prayer_times['Sunrise'].replace('AM', '').replace('PM', '').strip():>5}")
+        prayer_time_entries['Dhuhr'].config(text = f"{'Dhuhr':<10}{today_prayer_times['Dhuhr'].replace('AM', '').replace('PM', '').strip():>5}")
+        prayer_time_entries['Asr'].config(text = f"{'Asr':<10}{today_prayer_times['Asr'].replace('AM', '').replace('PM', '').strip():>5}")
+        prayer_time_entries['Maghrib'].config(text = f"{'Maghrib':<10}{today_prayer_times['Maghrib'].replace('AM', '').replace('PM', '').strip():>5}")
+        prayer_time_entries['Isha'].config(text = f"{'Isha':<10}{today_prayer_times['Isha'].replace('AM', '').replace('PM', '').strip():>5}")
 
         # Schedule next update
-        parent_widget.after(1000, lambda: self.update_prayer_times(parent_widget, prayer_time_entries))
+        (prayer_time_entries['Fajr']).after(1000, lambda: self.update_prayer_times(prayer_time_entries))
 
     def countdown(self, countdown_prayer_label, countdown_time_label):
         next_prayer, time_difference = self.next_prayer_time()
