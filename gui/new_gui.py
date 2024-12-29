@@ -50,7 +50,7 @@ class PrayerTimesComponenet(ttk.Frame):
     main_background = ttk.Label(main_frame, background=GREEN)
 
     # Clock Label
-    clock = ttk.Label(main_frame, background=DARKER_GREEN, font=('Montserrat', 55, 'bold'), foreground=GOLD, anchor='center')
+    clock = ttk.Label(main_frame, background=DARKER_GREEN, font=('Helvetica', 60, 'bold'), foreground=GOLD, anchor='center')
 
     # Date Label
 
@@ -58,45 +58,87 @@ class PrayerTimesComponenet(ttk.Frame):
 
     # Prayer Times Frame
 
-    prayer_info = ttk.Label(main_frame, text=f'{"ATHAAN    IQAMAH":>45}', background=GREEN, font=('Helvetica', 25, 'bold'), foreground=GOLD, anchor='s')
+    prayer_times_frame = ttk.Frame(main_frame)
+    prayer_times_frame.background = ttk.Label(prayer_times_frame, background=GREEN)
 
+    prayer_info = ttk.Label(prayer_times_frame, text=f'{"ATHAAN   IQAMAH":>48}', background=GREEN, font=('Helvetica', 25, 'bold'), foreground=GOLD, anchor='s')
 
-    prayer_label_font = ('Consolas', 40, 'bold')
+    prayer_label_master = prayer_times_frame
+    prayer_label_anchor = 'center'
+    prayer_label_font = ('Arial', 40, 'bold')
     prayer_label_foreground = GOLD
 
-    fajr_label = ttk.Label(main_frame, text='Fajr', font = prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor='center')
+    fajr_label = ttk.Label(prayer_label_master, text='Fajr', font = prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    fajr_adhan_label = ttk.Label(prayer_label_master, text='6:00 AM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    fajr_iqamah_label = ttk.Label(prayer_label_master, text='6:15 AM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
 
-    sunrise_label = ttk.Label(main_frame, text='Sunrise', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor='center')
+    sunrise_label = ttk.Label(prayer_label_master, text='Sunrise', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    sunrise_adhan_label = ttk.Label(prayer_label_master, text='6:00 AM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    sunrise_iqamah_label = ttk.Label(prayer_label_master, font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
 
-    dhuhr_label = ttk.Label(main_frame, text='Dhuhr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor='center')
+    dhuhr_label = ttk.Label(prayer_label_master, text='Dhuhr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    dhuhr_adhan_label = ttk.Label(prayer_label_master, text='1:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    dhuhr_iqamah_label = ttk.Label(prayer_label_master, text='1:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
 
-    asr_label = ttk.Label(main_frame, text='Asr', font= prayer_label_font, foreground=prayer_label_foreground, background=DGRAY, anchor='center')
+    asr_label = ttk.Label(prayer_label_master, text='Asr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    asr_adhan_label = ttk.Label(prayer_label_master, text='3:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    asr_iqamah_label = ttk.Label(prayer_label_master, text='3:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
 
-    maghrib_label = ttk.Label(main_frame, text='Maghrib', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor='center')
+    maghrib_label = ttk.Label(prayer_label_master, text='Maghrib', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    maghrib_adhan_label = ttk.Label(prayer_label_master, text='6:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    maghrib_iqamah_label = ttk.Label(prayer_label_master, text='6:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
     
-    isha_label = ttk.Label(main_frame, text='Isha', font= prayer_label_font, foreground=prayer_label_foreground,background=GREEN, anchor='center')
+    isha_label = ttk.Label(prayer_label_master, text='Isha', font= prayer_label_font, foreground=prayer_label_foreground,background=GREEN, anchor=prayer_label_anchor)
+    isha_adhan_label = ttk.Label(prayer_label_master, text='8:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    isha_iqamah_label = ttk.Label(prayer_label_master, text='8:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
 
     def pack_widgets():
       main_frame.pack(side='left', fill='both', expand=True)
       main_background.pack(fill='both', expand=True)
 
-      clock.place(relx=0, rely=0, relheight=0.20, relwidth=1)
-      date.place(relx=0, rely=0.17, relheight=0.08, relwidth=1)  
+      clock.place(relx=0, rely=0, relheight=0.15, relwidth=1)
+      date.place(relx=0, rely=0.14, relheight=0.08, relwidth=1)  
 
-      prayer_info.place(relx=0, rely=0.25, relheight=0.05, relwidth=1)  
+      # Prayer Times Frame
+      prayer_times_frame.place(relx=0, rely=0.22, relheight=0.78, relwidth=1)
+      prayer_times_frame.background.pack(fill='both', expand=True)
 
-      label_height = 0.70 / 6
-      fajr_label.place(relx=0.01, rely=0.30, relheight=label_height, relwidth=1)
-      sunrise_label.place(relx=0.01, rely=0.30 + label_height, relheight=label_height, relwidth=0.98)
-      dhuhr_label.place(relx=0.01, rely=0.30 + 2 * label_height, relheight=label_height, relwidth=0.98)
-      asr_label.place(relx=0.01, rely=0.30 + 3 * label_height, relheight=label_height, relwidth=0.98)
-      maghrib_label.place(relx=0.01, rely=0.30 + 4 * label_height, relheight=label_height, relwidth=0.98)
-      isha_label.place(relx=0.01, rely=0.30 + 5 * label_height, relheight=label_height, relwidth=0.98)
-    
+      prayer_info.place(relx=0, rely=0, relheight=0.06, relwidth=1)
+
+      fajr_label.place(relx=0.01, rely=0.07, relheight=0.15, relwidth=0.45)
+      fajr_adhan_label.place(relx=0.46, rely=0.07, relheight=0.15, relwidth=0.285)
+      fajr_iqamah_label.place(relx=0.745, rely=0.07, relheight=0.15, relwidth=0.245)
+
+      sunrise_label.place(relx=0.01, rely=0.22, relheight=0.15, relwidth=0.45)
+      sunrise_adhan_label.place(relx=0.46, rely=0.22, relheight=0.15, relwidth=0.285)
+      sunrise_iqamah_label.place(relx=0.745, rely=0.22, relheight=0.15, relwidth=0.245)
+
+      dhuhr_label.place(relx=0.01, rely=0.37, relheight=0.15, relwidth=0.45)
+      dhuhr_adhan_label.place(relx=0.46, rely=0.37, relheight=0.15, relwidth=0.285)
+      dhuhr_iqamah_label.place(relx=0.745, rely=0.37, relheight=0.15, relwidth=0.245)
+
+      asr_label.place(relx=0.01, rely=0.52, relheight=0.15, relwidth=0.45)
+      asr_adhan_label.place(relx=0.46, rely=0.52, relheight=0.15, relwidth=0.285)
+      asr_iqamah_label.place(relx=0.745, rely=0.52, relheight=0.15, relwidth=0.245)
+
+      maghrib_label.place(relx=0.01, rely=0.67, relheight=0.15, relwidth=0.45)
+      maghrib_adhan_label.place(relx=0.46, rely=0.67, relheight=0.15, relwidth=0.285)
+      maghrib_iqamah_label.place(relx=0.745, rely=0.67, relheight=0.15, relwidth=0.245)
+
+      isha_label.place(relx=0.01, rely=0.82, relheight=0.15, relwidth=0.45)
+      isha_adhan_label.place(relx=0.46, rely=0.82, relheight=0.15, relwidth=0.285)
+      isha_iqamah_label.place(relx=0.745, rely=0.82, relheight=0.15, relwidth=0.245)
+
+
     def dynamic_update():
       self.updater.update_clock(clock)
       self.updater.update_date(date, None)
-      self.updater.update_prayer_times({'Fajr':fajr_label, 'Sunrise':sunrise_label, 'Dhuhr':dhuhr_label, "Asr":asr_label, 'Maghrib':maghrib_label, 'Isha':isha_label})
+      self.updater.update_prayer_times({'fajr':{'adhan': fajr_adhan_label, 'iqamah': fajr_iqamah_label},
+                                        'sunrise':{'adhan': sunrise_adhan_label},
+                                        'dhuhr':{ 'adhan': dhuhr_adhan_label, 'iqamah': dhuhr_iqamah_label}, 
+                                        'asr': {'adhan': asr_adhan_label, 'iqamah': asr_iqamah_label},
+                                        'maghrib': {'adhan': maghrib_adhan_label, 'iqamah': maghrib_iqamah_label}, 
+                                        'isha': {'adhan': isha_adhan_label, 'iqamah': isha_iqamah_label}})
 
 
     pack_widgets()
