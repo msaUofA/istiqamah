@@ -148,7 +148,7 @@ class RightFrame(ttk.Frame):
     super().__init__(parent)
     self.updater = updater
     self.place(relx=0.43, rely=0, relheight=1, relwidth=0.60)
-    self.logo = ImageTk.PhotoImage((Image.open('Assets/msalogo.png').resize((360, 180))))
+    self.logo = ImageTk.PhotoImage((Image.open('../Assets/msalogo.png').resize((360, 180))))
     self.countdown_component = CountdownComponent(self, self.updater)
     self.event_component = None
     self.create_widgets()
