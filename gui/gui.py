@@ -49,22 +49,22 @@ class PrayerTimesComponenet(ttk.Frame):
     main_background = ttk.Label(main_frame, background=GREEN)
 
     # Clock Label
-    clock = ttk.Label(main_frame, background=DARKER_GREEN, font=('Helvetica', 60, 'bold'), foreground=GOLD, anchor='center')
+    clock = ttk.Label(main_frame, background=DARKER_GREEN, font=('Helvetica', 75, 'bold'), foreground=GOLD, anchor='center')
 
     # Date Label
 
-    date = ttk.Label(main_frame, font=('Helvetica', 25, 'bold', 'italic'), foreground=GOLD, background = DARKER_GREEN, anchor='center')
+    date = ttk.Label(main_frame, font=('Helvetica', 35, 'bold', 'italic'), foreground=GOLD, background = DARKER_GREEN, anchor='center')
 
     # Prayer Times Frame
 
     prayer_times_frame = ttk.Frame(main_frame)
     prayer_times_frame.background = ttk.Label(prayer_times_frame, background=GREEN)
 
-    prayer_info = ttk.Label(prayer_times_frame, text=f'{"ATHAAN   IQAMAH":>48}', background=GREEN, font=('Helvetica', 25, 'bold'), foreground=GOLD, anchor='s')
+    prayer_info_frame = ttk.Label(prayer_times_frame, text=f'{"ATHAAN   IQAMAH":>48}', background=GREEN, font=('Helvetica', 33, 'bold'), foreground=GOLD, anchor='s')
 
     prayer_label_master = prayer_times_frame
     prayer_label_anchor = 'center'
-    prayer_label_font = ('Arial', 40, 'bold')
+    prayer_label_font = ('Arial', 60, 'bold')
     prayer_label_foreground = GOLD
 
     fajr_label = ttk.Label(prayer_label_master, text='Fajr', font = prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
@@ -102,7 +102,7 @@ class PrayerTimesComponenet(ttk.Frame):
       prayer_times_frame.place(relx=0, rely=0.22, relheight=0.78, relwidth=1)
       prayer_times_frame.background.pack(fill='both', expand=True)
 
-      prayer_info.place(relx=0, rely=0, relheight=0.06, relwidth=1)
+      prayer_info_frame.place(relx=0, rely=0, relheight=0.06, relwidth=1)
 
       fajr_label.place(relx=0.01, rely=0.07, relheight=0.15, relwidth=0.45)
       fajr_adhan_label.place(relx=0.46, rely=0.07, relheight=0.15, relwidth=0.285)
@@ -148,7 +148,7 @@ class RightFrame(ttk.Frame):
     super().__init__(parent)
     self.updater = updater
     self.place(relx=0.43, rely=0, relheight=1, relwidth=0.60)
-    self.logo = ImageTk.PhotoImage((Image.open('../Assets/msalogo.png').resize((240, 120))))
+    self.logo = ImageTk.PhotoImage((Image.open('Assets/msalogo.png').resize((360, 180))))
     self.countdown_component = CountdownComponent(self, self.updater)
     self.event_component = None
     self.create_widgets()
@@ -181,12 +181,12 @@ class CountdownComponent(ttk.Frame):
 
     # Countdown Frame
     countdown_frame = ttk.Frame(main_frame)
-    countdown_prayer = ttk.Label(countdown_frame, font=("Helvetica", 70, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
-    countdown_time = ttk.Label(countdown_frame, font=("Helvetica", 65, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
+    countdown_prayer = ttk.Label(countdown_frame, font=("Helvetica", 95, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
+    countdown_time = ttk.Label(countdown_frame, font=("Helvetica", 85, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
 
     # Countdown Headers Frame
     countdown_headers_frame = ttk.Frame(main_frame)
-    countdown_headers_frame.background = ttk.Label(countdown_headers_frame, background=DGRAY)
+    countdown_headers_frame_background = ttk.Label(countdown_headers_frame, background=DGRAY)
     hour_header = ttk.Label(countdown_headers_frame, text='HOURS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
     minute_header = ttk.Label(countdown_headers_frame, text='MINUTES', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
     second_header = ttk.Label(countdown_headers_frame, text='SECONDS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
@@ -197,8 +197,8 @@ class CountdownComponent(ttk.Frame):
       countdown_frame.place(relx=0, rely=0.34, relheight=0.24, relwidth=1)
       countdown_prayer.pack(side='top', fill='x') 
       countdown_time.pack(fill='x') 
-      countdown_headers_frame.place(relx=0, rely=0.60, relheight=0.2, relwidth=1)
-      countdown_headers_frame.background.pack(fill='both', expand=True)
+      countdown_headers_frame.place(relx=0, rely=0.6, relheight=0.2, relwidth=1)
+      countdown_headers_frame_background.pack(fill='both', expand=True)
       hour_header.place(relx= 0.239, rely=0, relheight=0.28, relwidth=0.13)
       minute_header.place(relx=0.439, rely=0, relheight=0.28, relwidth=0.13)
       second_header.place(relx=0.639, rely=0, relheight=0.28, relwidth=0.13)
