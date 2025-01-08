@@ -1,180 +1,215 @@
 import ttkbootstrap as ttk
 from prayer_times import read_prayer_times
 from dynamic_updater import DynamicUpdater
-
 from PIL import Image, ImageTk
 
 # GREEN = "#3E7D5D"
 GREEN = "#127958"
+DARKER_GREEN = "#0E6146"
+LIGHTER_GREEN = "#16916A"
 GOLD  = "#D4AF37"
 WHITE = "#F5F5F5"
 DGRAY = "#141414"
 LGRAY = "#A9A9A9"
 
+class GUI(ttk.Toplevel):
+  def __init__(self):
+    super().__init__()
+    self.attributes('-fullscreen', True)
+    self.bind('<Escape>', lambda event: self.quit())
+    self.configure(background='black')
+    self.prayer_times = read_prayer_times('prayertimes2025.csv')
+    self.updater = DynamicUpdater(self, self.prayer_times)
+    
+    # Frames
+    LeftFrame(self, self.updater)
+    RightFrame(self, self.updater)
+  
+  def run(self):
+    self.mainloop()
+
+class LeftFrame(ttk.Frame):
+
+  def __init__(self, parent, updater):
+    super().__init__(parent)
+    self.updater = updater
+    self.place(relx=0, rely=0, relheight=1, relwidth=0.43)
+    self.prayer_times_component = PrayerTimesComponenet(self, self.updater)
+
+class PrayerTimesComponenet(ttk.Frame):
+  def __init__(self, parent, updater):
+    super().__init__(parent)
+    self.updater = updater 
+    self.pack(fill='both', expand=True)
+    self.prayer_times_widgets()
+  
+  def prayer_times_widgets(self):
+    
+    main_frame = ttk.Frame(self)
+    main_background = ttk.Label(main_frame, background=GREEN)
+
+    # Clock Label
+    clock = ttk.Label(main_frame, background=DARKER_GREEN, font=('Helvetica', 60, 'bold'), foreground=GOLD, anchor='center')
+
+    # Date Label
+
+    date = ttk.Label(main_frame, font=('Helvetica', 25, 'bold', 'italic'), foreground=GOLD, background = DARKER_GREEN, anchor='center')
+
+    # Prayer Times Frame
+
+    prayer_times_frame = ttk.Frame(main_frame)
+    prayer_times_frame.background = ttk.Label(prayer_times_frame, background=GREEN)
+
+    prayer_info = ttk.Label(prayer_times_frame, text=f'{"ATHAAN   IQAMAH":>48}', background=GREEN, font=('Helvetica', 25, 'bold'), foreground=GOLD, anchor='s')
+
+    prayer_label_master = prayer_times_frame
+    prayer_label_anchor = 'center'
+    prayer_label_font = ('Arial', 40, 'bold')
+    prayer_label_foreground = GOLD
+
+    fajr_label = ttk.Label(prayer_label_master, text='Fajr', font = prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    fajr_adhan_label = ttk.Label(prayer_label_master, text='6:00 AM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    fajr_iqamah_label = ttk.Label(prayer_label_master, text='6:15 AM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+
+    sunrise_label = ttk.Label(prayer_label_master, text='Sunrise', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    sunrise_adhan_label = ttk.Label(prayer_label_master, text='6:00 AM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    sunrise_iqamah_label = ttk.Label(prayer_label_master, font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+
+    dhuhr_label = ttk.Label(prayer_label_master, text='Dhuhr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    dhuhr_adhan_label = ttk.Label(prayer_label_master, text='1:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    dhuhr_iqamah_label = ttk.Label(prayer_label_master, text='1:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+
+    asr_label = ttk.Label(prayer_label_master, text='Asr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    asr_adhan_label = ttk.Label(prayer_label_master, text='3:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    asr_iqamah_label = ttk.Label(prayer_label_master, text='3:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+
+    maghrib_label = ttk.Label(prayer_label_master, text='Maghrib', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    maghrib_adhan_label = ttk.Label(prayer_label_master, text='6:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    maghrib_iqamah_label = ttk.Label(prayer_label_master, text='6:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    
+    isha_label = ttk.Label(prayer_label_master, text='Isha', font= prayer_label_font, foreground=prayer_label_foreground,background=GREEN, anchor=prayer_label_anchor)
+    isha_adhan_label = ttk.Label(prayer_label_master, text='8:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    isha_iqamah_label = ttk.Label(prayer_label_master, text='8:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+
+    def pack_widgets():
+      main_frame.pack(side='left', fill='both', expand=True)
+      main_background.pack(fill='both', expand=True)
+
+      clock.place(relx=0, rely=0, relheight=0.15, relwidth=1)
+      date.place(relx=0, rely=0.14, relheight=0.08, relwidth=1)  
+
+      # Prayer Times Frame
+      prayer_times_frame.place(relx=0, rely=0.22, relheight=0.78, relwidth=1)
+      prayer_times_frame.background.pack(fill='both', expand=True)
+
+      prayer_info.place(relx=0, rely=0, relheight=0.06, relwidth=1)
+
+      fajr_label.place(relx=0.01, rely=0.07, relheight=0.15, relwidth=0.45)
+      fajr_adhan_label.place(relx=0.46, rely=0.07, relheight=0.15, relwidth=0.285)
+      fajr_iqamah_label.place(relx=0.745, rely=0.07, relheight=0.15, relwidth=0.245)
+
+      sunrise_label.place(relx=0.01, rely=0.22, relheight=0.15, relwidth=0.45)
+      sunrise_adhan_label.place(relx=0.46, rely=0.22, relheight=0.15, relwidth=0.285)
+      sunrise_iqamah_label.place(relx=0.745, rely=0.22, relheight=0.15, relwidth=0.245)
+
+      dhuhr_label.place(relx=0.01, rely=0.37, relheight=0.15, relwidth=0.45)
+      dhuhr_adhan_label.place(relx=0.46, rely=0.37, relheight=0.15, relwidth=0.285)
+      dhuhr_iqamah_label.place(relx=0.745, rely=0.37, relheight=0.15, relwidth=0.245)
+
+      asr_label.place(relx=0.01, rely=0.52, relheight=0.15, relwidth=0.45)
+      asr_adhan_label.place(relx=0.46, rely=0.52, relheight=0.15, relwidth=0.285)
+      asr_iqamah_label.place(relx=0.745, rely=0.52, relheight=0.15, relwidth=0.245)
+
+      maghrib_label.place(relx=0.01, rely=0.67, relheight=0.15, relwidth=0.45)
+      maghrib_adhan_label.place(relx=0.46, rely=0.67, relheight=0.15, relwidth=0.285)
+      maghrib_iqamah_label.place(relx=0.745, rely=0.67, relheight=0.15, relwidth=0.245)
+
+      isha_label.place(relx=0.01, rely=0.82, relheight=0.15, relwidth=0.45)
+      isha_adhan_label.place(relx=0.46, rely=0.82, relheight=0.15, relwidth=0.285)
+      isha_iqamah_label.place(relx=0.745, rely=0.82, relheight=0.15, relwidth=0.245)
 
 
-class PrayerTimeGUI(ttk.Toplevel):
-    def __init__(self):
-        # Main window
-        super().__init__()
-        self.attributes('-fullscreen', True)
-        self.bind('<Escape>', lambda event: self.quit())
-
-        # Read prayer times
-        self.prayer_times = read_prayer_times('prayertimes.csv')
-
-        # Initialize DynamicUpdater
-        self.updater = DynamicUpdater(self, self.prayer_times)
-
-        # Frames
-        self.main_top_frame = TopFrame(self, self.updater)
-        self.main_bottom_frame = BottomFrame(self, self.updater)
-
-    def run(self):
-        self.mainloop()
-        
-class TopFrame(ttk.Frame):
-    def __init__(self, parent, updater):
-        super().__init__(parent)
-        self.updater = updater
-        self.place(x=0, y=0, relheight=0.7, relwidth=1)
-        logo = Image.open('../Assets/msalogo.png')
-        logo = logo.resize((240, 120))
-        self.logo = ImageTk.PhotoImage(logo)
-        self.create_widget()
-        s = ttk.Style()
-        s.configure('TFrame', background=DGRAY)
-        s.configure('TLabel', background=DGRAY)
-
-    def create_widget(self):
-        main_frame = ttk.Frame(self)
-        background_label = ttk.Label(main_frame, background=GREEN)
-
-        data_frame = ttk.Frame(main_frame)
-        title_frame = ttk.Frame(data_frame)
-        clock_frame = ttk.Frame(data_frame)
-
-        logo = Image.open('../Assets/msalogo.png')
-        logo = logo.resize((240,120))  
-        self.logo = ImageTk.PhotoImage(logo)  
-
-        title_label = ttk.Label(title_frame, image=self.logo, background=DGRAY, anchor='center')
-
-        date = ttk.Label(title_frame, font=('Helvetica', 20, 'bold', 'italic'), foreground=GREEN, anchor='n')
-        hijri_date = ttk.Label(title_frame, font=('Helvetica', 20, 'bold', 'italic'), foreground=GREEN, anchor='n')
-
-        live_clock = ttk.Label(clock_frame, font=('Times New Roman', 40, 'bold'), foreground=GOLD, anchor='n')
-        countdown = ttk.Label(clock_frame, font=("Times New Roman", 100, 'bold'), foreground=GOLD, anchor='n')
-
-        def pack_widgets():
-            background_label.place(x=0, y=0, relwidth=1, relheight=1)
-            date.pack(side='left', expand=True, fill='x')
-            title_label.pack(side='left', expand=True, fill='x', padx=150)
-            hijri_date.pack(side='left', expand=True, fill='x')
-            countdown.pack(expand=True, fill='both')
-            live_clock.pack(expand=True, fill='both')
-            title_frame.pack(expand=True, fill='x')
-            clock_frame.pack(expand=True, fill='both')
-            data_frame.pack(expand=True, fill='both', padx=10, pady=10)
-            main_frame.pack(expand=True, fill='both', padx=10, pady=10)
-
-        pack_widgets()
-        self.updater.update_clock(live_clock)
-        self.updater.update_date(date, hijri_date)
-        self.updater.countdown(countdown)
+    def dynamic_update():
+      self.updater.update_clock(clock)
+      self.updater.update_date(date, None)
+      self.updater.update_prayer_times({'fajr':{'adhan': fajr_adhan_label, 'iqamah': fajr_iqamah_label},
+                                        'sunrise':{'adhan': sunrise_adhan_label},
+                                        'dhuhr':{ 'adhan': dhuhr_adhan_label, 'iqamah': dhuhr_iqamah_label}, 
+                                        'asr': {'adhan': asr_adhan_label, 'iqamah': asr_iqamah_label},
+                                        'maghrib': {'adhan': maghrib_adhan_label, 'iqamah': maghrib_iqamah_label}, 
+                                        'isha': {'adhan': isha_adhan_label, 'iqamah': isha_iqamah_label}})
 
 
+    pack_widgets()
+    dynamic_update()
+      
+class RightFrame(ttk.Frame):
+  def __init__(self, parent, updater):
+    super().__init__(parent)
+    self.updater = updater
+    self.place(relx=0.43, rely=0, relheight=1, relwidth=0.60)
+    self.logo = ImageTk.PhotoImage((Image.open('../Assets/msalogo.png').resize((240, 120))))
+    self.countdown_component = CountdownComponent(self, self.updater)
+    self.event_component = None
+    self.create_widgets()
 
-class BottomFrame(ttk.Frame):
-    def __init__(self, parent, updater):
-        super().__init__(parent)
-        self.updater = updater
-        self.place(x=0, rely=0.7, relheight=0.3, relwidth=1)
-        self.create_widgets()
-        s = ttk.Style()
-        s.configure('TFrame', background=DGRAY)
+  def create_widgets(self):
 
-    def create_widgets(self):
-        def add_separator(parent):
-            separator_frame = ttk.Frame(parent, width=2)
-            separator_frame.pack(side='left', fill='y', pady=20) 
+    logo_frame = ttk.Frame(self)
+    logo_label = ttk.Label(logo_frame, image=self.logo, background=DGRAY, anchor='center') 
 
-            separator = ttk.Separator(separator_frame, orient='vertical')
-            separator.pack(expand=True, fill='y') 
+    def pack_widgets():
+      
+      logo_frame.place(relx=0, rely=0, relheight=0.25, relwidth=1)
+      logo_label.pack(fill='both', expand=True)
+    
+    pack_widgets()
 
-        main_frame = ttk.Frame(self)
-        background_label = ttk.Label(main_frame, background=GREEN)
-        prayer_times_frame = ttk.Frame(main_frame)
+class CountdownComponent(ttk.Frame):
 
-        fajr = PrayerTimeEntry(prayer_times_frame, 'Fajr', "0")
-        add_separator(prayer_times_frame)
-
-        sunrise = PrayerTimeEntry(prayer_times_frame, 'Sunrise', "0")
-        add_separator(prayer_times_frame)
-
-        dhuhr = PrayerTimeEntry(prayer_times_frame, 'Dhuhr', "0")
-        add_separator(prayer_times_frame)
-
-        asr = PrayerTimeEntry(prayer_times_frame, 'Asr', "0")
-        add_separator(prayer_times_frame)
-
-        maghrib = PrayerTimeEntry(prayer_times_frame, 'Maghrib', "0")
-        add_separator(prayer_times_frame)
-
-        isha = PrayerTimeEntry(prayer_times_frame, 'Isha', "0")
-
-        prayer_widgets = {
-            'Fajr': fajr,
-            'Sunrise': sunrise,
-            'Dhuhr': dhuhr,
-            'Asr': asr,
-            'Maghrib': maghrib,
-            'Isha': isha
-        }
-
-        def pack_widgets():
-            background_label.place(x=0, y=0, relwidth=1, relheight=1)
-            main_frame.pack(expand=True, fill='both', padx=10, pady=5)
-            prayer_times_frame.pack(expand=True, fill='both', padx=10, pady=10)
-
-        pack_widgets()
-        self.updater.update_prayer_times(self, prayer_widgets)
-
-class PrayerTimeEntry(ttk.Frame):
-    def __init__(self, parent, prayer_name, prayer_time):
-        super().__init__(parent, style='light')
-        self.pack(side='left', expand=True, fill='both')
-
-        text_color = GOLD
-
-        self.prayer_name_label = ttk.Label(self, text=prayer_name, font=('Times New Roman', 40, 'bold'), anchor='center', foreground=text_color)
-        self.prayer_name_label.pack(expand=True, fill='both')
-
-        self.prayer_time_label = ttk.Label(self, text=prayer_time, font=('Times New Roman', 40), anchor='center', foreground=text_color)
-        self.prayer_time_label.pack(expand=True, fill='both')
-
-        if prayer_name == 'Fajr':
-            ttk.Label(self, text="Iqamah: 7:00AM", font=('Times New Roman', 16, 'bold'), anchor='center',foreground=WHITE).pack(expand=True, fill='both')
-
-        if prayer_name == 'Sunrise':
-                ttk.Label(self).pack(expand=True, fill='both')
-
-        if prayer_name == 'Dhuhr':
-            ttk.Label(self, text="Iqamah: 1:00PM", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=WHITE).pack(expand=True, fill='both')
-
-        if prayer_name == 'Asr':
-            ttk.Label(self, text="Iqamah: Asr + 5 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=WHITE).pack(expand=True, fill='both')
-
-        if prayer_name == 'Maghrib':
-            ttk.Label(self, text="Iqamah: Maghrib + 5 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=WHITE).pack(expand=True, fill='both')
-
-        if prayer_name == 'Isha':
-            ttk.Label(self, text="Iqamah: Isha + 10 minutes", font=('Times New Roman', 16, 'bold'), anchor='center', foreground=WHITE).pack(expand=True, fill='both')
+  def __init__(self, parent, updater):
+    super().__init__(parent)
+    self.pack(fill='both', expand=True)
+    self.updater = updater
+    self.countdown_widgets()
+      
+  def countdown_widgets(self):
 
 
-    def update_time(self, new_prayer_time):
-        self.prayer_time_label.config(text=new_prayer_time)
+    main_frame = ttk.Frame(self)
+    main_background = ttk.Label(main_frame, background=DGRAY)
+
+    # Countdown Frame
+    countdown_frame = ttk.Frame(main_frame)
+    countdown_prayer = ttk.Label(countdown_frame, font=("Helvetica", 70, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
+    countdown_time = ttk.Label(countdown_frame, font=("Helvetica", 65, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
+
+    # Countdown Headers Frame
+    countdown_headers_frame = ttk.Frame(main_frame)
+    countdown_headers_frame.background = ttk.Label(countdown_headers_frame, background=DGRAY)
+    hour_header = ttk.Label(countdown_headers_frame, text='HOURS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
+    minute_header = ttk.Label(countdown_headers_frame, text='MINUTES', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
+    second_header = ttk.Label(countdown_headers_frame, text='SECONDS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
+
+    def pack_widgets():
+      main_frame.pack(side = 'left', fill='both', expand=True)
+      main_background.pack(fill='both', expand=True)
+      countdown_frame.place(relx=0, rely=0.34, relheight=0.24, relwidth=1)
+      countdown_prayer.pack(side='top', fill='x') 
+      countdown_time.pack(fill='x') 
+      countdown_headers_frame.place(relx=0, rely=0.60, relheight=0.2, relwidth=1)
+      countdown_headers_frame.background.pack(fill='both', expand=True)
+      hour_header.place(relx= 0.239, rely=0, relheight=0.28, relwidth=0.13)
+      minute_header.place(relx=0.439, rely=0, relheight=0.28, relwidth=0.13)
+      second_header.place(relx=0.639, rely=0, relheight=0.28, relwidth=0.13)
+    
+    def dynamic_update():
+      self.updater.countdown(countdown_prayer, countdown_time)
+    
+    pack_widgets()
+    dynamic_update()
 
 
-PrayerTimeGUI()
+
+
 

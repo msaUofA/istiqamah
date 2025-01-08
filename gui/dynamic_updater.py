@@ -1,6 +1,5 @@
 import time
 from datetime import datetime, timedelta
-from hijri_converter import convert
 
 class DynamicUpdater:
     def __init__(self, root, prayer_times):

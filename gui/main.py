@@ -1,6 +1,6 @@
-from gui import PrayerTimeGUI
+from gui import GUI
 def main():
-    gui = PrayerTimeGUI()
+    gui = GUI()
     gui.run()
 
 if __name__ == '__main__':
