@@ -19,6 +19,7 @@ def read_prayer_times(filename: str):
                     prayer_times[current_month] = {}
 
             elif row[0] and current_month:
+                    
                 prayer_times[current_month][int(row[1])] = {
                     'Fajr': row[2],
                     'Sunrise': row[3],
@@ -26,6 +27,7 @@ def read_prayer_times(filename: str):
                     'Asr': row[5],
                     'Maghrib': row[6],
                     'Isha': row[7]
+
                 }
 
     return prayer_times

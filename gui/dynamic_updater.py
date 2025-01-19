@@ -1,5 +1,13 @@
 import time
+import ttkbootstrap as ttk
 from datetime import datetime, timedelta
+GREEN = "#127958"
+DARKER_GREEN = "#0E6146"
+LIGHTER_GREEN = "#16916A"
+GOLD  = "#D4AF37"
+WHITE = "#F5F5F5"
+DGRAY = "#141414"
+LGRAY = "#A9A9A9"
 
 class DynamicUpdater:
     def __init__(self, root, prayer_times):
@@ -11,7 +19,7 @@ class DynamicUpdater:
             'Dhuhr': {'fixed': '1:00 PM'},
             'Asr': {'offset_minutes': 5},
             'Maghrib': {'offset_minutes': 5},
-            'Isha': {'offset_minutes': 10},
+            'Isha': {'offset_minutes': 5},
         }
         self.today_iqamah_times = {'Fajr': None, 'Dhuhr': None, 'Asr': None, 'Maghrib': None, 'Isha': None}
         self.compute_iqamah_times()
@@ -35,7 +43,7 @@ class DynamicUpdater:
         live_date.config(text=f'{current_date:>{current_date_str_len}}')
         #live_hijri_date.config(text=f'{hijri_date_str:<{current_date_str_len}}')
         live_date.after(1000, lambda: self.update_date(live_date, live_hijri_date))
-
+    
     def compute_iqamah_times(self):
         current_month = datetime.now().strftime('%B')
         current_day = int(datetime.now().strftime('%d'))
@@ -100,6 +108,7 @@ class DynamicUpdater:
 
     def countdown(self, countdown_prayer_label, countdown_time_label):
         next_prayer, time_difference = self.next_prayer_time()
+
         time_difference -= 0
 
         hours, remainder = divmod(time_difference, 3600)
@@ -112,6 +121,24 @@ class DynamicUpdater:
         countdown_time_label.config(text=countdown_str_time)
 
         countdown_time_label.after(1000, lambda: self.countdown(countdown_prayer_label, countdown_time_label))
+
+    def iqamah_countdown(self, iqamah_countdown_frame, iqamah_countdown_time):
+
+        time_difference = self.next_iqamah_time()
+
+        if time_difference > 60 or time_difference < 0:
+            iqamah_countdown_frame.place_forget()
+        
+        else:
+            iqamah_countdown_frame.place(relx=0.5, rely=0.5, anchor='center')
+            iqamah_countdown_time.config(text=f"{int(time_difference)} seconds")
+        
+
+        iqamah_countdown_time.after(1000, lambda: self.iqamah_countdown(iqamah_countdown_frame, iqamah_countdown_time))
+
+
+
+
 
     def next_prayer_time(self):
         current_time = datetime.now()
@@ -142,6 +169,22 @@ class DynamicUpdater:
 
             time_difference = (prayer_time - current_time).total_seconds()
             return prayer, time_difference
+    
+    def next_iqamah_time(self):
+
+        current_time = datetime.now()
+
+        today_iqamah_times = self.today_iqamah_times
+
+        for iqamah_time in today_iqamah_times.values():
+            if iqamah_time > current_time:
+                time_difference = (iqamah_time - current_time).total_seconds()
+                return time_difference
+        
+        # There are no more iqamah times today, return -1 until next day
+        return -1
+        
+
 
     def check_iqamah_times(self):
         current_time = datetime.now()

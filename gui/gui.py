@@ -148,7 +148,7 @@ class RightFrame(ttk.Frame):
     super().__init__(parent)
     self.updater = updater
     self.place(relx=0.43, rely=0, relheight=1, relwidth=0.60)
-    self.logo = ImageTk.PhotoImage((Image.open('../Assets/msalogo.png').resize((360, 180))))
+    self.logo = ImageTk.PhotoImage((Image.open('Assets/msalogo.png').resize((360, 180))))
     self.countdown_component = CountdownComponent(self, self.updater)
     self.event_component = None
     self.create_widgets()
@@ -191,6 +191,14 @@ class CountdownComponent(ttk.Frame):
     minute_header = ttk.Label(countdown_headers_frame, text='MINUTES', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
     second_header = ttk.Label(countdown_headers_frame, text='SECONDS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
 
+    # Iqama Countdown Frame
+
+    iqamah_countdown_frame = ttk.Frame(main_frame)
+    iqamah_countdown_label = ttk.Label(iqamah_countdown_frame, text = 'Iqamah is in:', font=("Helvetica", 120, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
+    iqamah_countdown_time = ttk.Label(iqamah_countdown_frame, font=("Helvetica", 110, 'bold'), foreground=GOLD, background=DGRAY, anchor='center')
+
+
+
     def pack_widgets():
       main_frame.pack(side = 'left', fill='both', expand=True)
       main_background.pack(fill='both', expand=True)
@@ -202,9 +210,13 @@ class CountdownComponent(ttk.Frame):
       hour_header.place(relx= 0.239, rely=0, relheight=0.28, relwidth=0.13)
       minute_header.place(relx=0.439, rely=0, relheight=0.28, relwidth=0.13)
       second_header.place(relx=0.639, rely=0, relheight=0.28, relwidth=0.13)
+      iqamah_countdown_frame.place(relx=0, rely=0.34, relheight=0.4, relwidth=1)
+      iqamah_countdown_label.pack(fill = 'x')
+      iqamah_countdown_time.pack(fill='both', expand=True)
     
     def dynamic_update():
       self.updater.countdown(countdown_prayer, countdown_time)
+      self.updater.iqamah_countdown(iqamah_countdown_frame, iqamah_countdown_time)
     
     pack_widgets()
     dynamic_update()
