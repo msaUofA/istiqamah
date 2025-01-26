@@ -124,14 +124,35 @@ class DynamicUpdater:
 
     def iqamah_countdown(self, iqamah_countdown_frame, iqamah_countdown_time):
 
-        time_difference = self.next_iqamah_time()
+        next_iqamah, time_difference = self.next_iqamah_time()
+        current_time = datetime.now()
+        current_month = datetime.now().strftime('%B')
+        current_day = int(datetime.now().strftime('%d'))
 
-        if time_difference > 60 or time_difference < 0:
-            iqamah_countdown_frame.place_forget()
+
+        if next_iqamah is not None:
+
+            today_prayer_times = self.prayer_times[current_month][current_day]
+
+            prayer_time_str = today_prayer_times[next_iqamah]
+            prayer_time = datetime.strptime(prayer_time_str, '%I:%M %p')  # Format for 12-hour time (e.g., 5:30 AM)
+
+            # Ensure the prayer time includes today's date
+            prayer_time = prayer_time.replace(
+                year=current_time.year,
+                month=current_time.month,
+                day=current_time.day
+            )
+
+            if current_time < prayer_time or time_difference <= 0:
+                iqamah_countdown_frame.place_forget()
         
+            else:
+                iqamah_countdown_frame.place(relx=0, rely=0)
+                iqamah_countdown_time.config(text=f"{int(time_difference)} seconds")
+            
         else:
-            iqamah_countdown_frame.place(relx=0.5, rely=0.5, anchor='center')
-            iqamah_countdown_time.config(text=f"{int(time_difference)} seconds")
+            iqamah_countdown_frame.place_forget()
         
 
         iqamah_countdown_time.after(1000, lambda: self.iqamah_countdown(iqamah_countdown_frame, iqamah_countdown_time))
@@ -176,13 +197,14 @@ class DynamicUpdater:
 
         today_iqamah_times = self.today_iqamah_times
 
-        for iqamah_time in today_iqamah_times.values():
+        for iqamah in today_iqamah_times:
+            iqamah_time = today_iqamah_times[iqamah]
             if iqamah_time > current_time:
                 time_difference = (iqamah_time - current_time).total_seconds()
-                return time_difference
+                return iqamah, time_difference
         
         # There are no more iqamah times today, return -1 until next day
-        return -1
+        return None, -1
         
 
 
