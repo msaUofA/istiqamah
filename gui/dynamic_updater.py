@@ -11,7 +11,7 @@ class DynamicUpdater:
             'Dhuhr': {'fixed': '1:00 PM'},
             'Asr': {'offset_minutes': 5},
             'Maghrib': {'offset_minutes': 5},
-            'Isha': {'offset_minutes': 10},
+            'Isha': {'offset_minutes': 5},
         }
         self.today_iqamah_times = {'Fajr': None, 'Dhuhr': None, 'Asr': None, 'Maghrib': None, 'Isha': None}
         self.compute_iqamah_times()
