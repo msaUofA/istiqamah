@@ -1,6 +1,8 @@
 import time
-import ttkbootstrap as ttk
+import pytz
+import pygame
 from datetime import datetime, timedelta
+
 GREEN = "#127958"
 DARKER_GREEN = "#0E6146"
 LIGHTER_GREEN = "#16916A"
@@ -24,6 +26,8 @@ class DynamicUpdater:
         self.today_iqamah_times = {'Fajr': None, 'Dhuhr': None, 'Asr': None, 'Maghrib': None, 'Isha': None}
         self.compute_iqamah_times()
         self.check_iqamah_times()
+        self.mixer = pygame.mixer.init()
+        self.sound = self.mixer.Sound()
 
     def update_clock(self, live_clock):
         current_time = time.strftime("%I:%M %p")
@@ -44,12 +48,27 @@ class DynamicUpdater:
         #live_hijri_date.config(text=f'{hijri_date_str:<{current_date_str_len}}')
         live_date.after(1000, lambda: self.update_date(live_date, live_hijri_date))
     
+    def check_daylight_savings(self):
+
+        local_timezone = pytz.timezone("America/Edmonton")
+        local_time = datetime.now(local_timezone)
+
+        return local_time.dst()
+    
     def compute_iqamah_times(self):
         current_month = datetime.now().strftime('%B')
         current_day = int(datetime.now().strftime('%d'))
 
         today_prayer_times = self.prayer_times[current_month][current_day]
         iqamah_times = {}
+        
+        if self.check_daylight_savings():
+            self.iqamah_config['Dhuhr']['fixed'] = "2:00 PM"
+            self.iqamah_config['Fajr'] = {'offset_minutes': 20}
+
+        else:
+            self.iqamah_config['Dhuhr']['fixed'] = "1:00 PM"
+            self.iqamah_config['Fajr'] = {'fixed': '7:00 AM'}
 
         for prayer_name, iqamah_info in self.iqamah_config.items():
             if iqamah_info is None:
@@ -117,12 +136,25 @@ class DynamicUpdater:
         countdown_str_prayer = f"{next_prayer:2} {'is':2} {'in':2} : "
         countdown_str_time = f"{int(hours):02} : {int(minutes):02} : {int(seconds):02}"
 
-        countdown_prayer_label.config(text=countdown_str_prayer.upper())
-        countdown_time_label.config(text=countdown_str_time)
+
+        iqamah_active, iqamah_time_difference = self.check_if_iqamah()
+
+        if iqamah_active:
+            
+            hours, remainder = divmod(iqamah_time_difference, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            iqamah_countdown_str_time = f"{int(hours):02} : {int(minutes):02} : {int(seconds):02}"
+
+            countdown_prayer_label.config(text="Iqamah is in:")
+            countdown_time_label.config(text=iqamah_countdown_str_time)
+
+        else:
+            countdown_prayer_label.config(text=countdown_str_prayer.upper())
+            countdown_time_label.config(text=countdown_str_time)
 
         countdown_time_label.after(1000, lambda: self.countdown(countdown_prayer_label, countdown_time_label))
 
-    def iqamah_countdown(self, iqamah_countdown_frame, iqamah_countdown_time):
+    def check_if_iqamah(self):
 
         next_iqamah, time_difference = self.next_iqamah_time()
         current_time = datetime.now()
@@ -145,21 +177,14 @@ class DynamicUpdater:
             )
 
             if current_time < prayer_time or time_difference <= 0:
-                iqamah_countdown_frame.place_forget()
+                return False, -1
         
             else:
-                iqamah_countdown_frame.place(relx=0, rely=0)
-                iqamah_countdown_time.config(text=f"{int(time_difference)} seconds")
+                return True, time_difference
+
             
         else:
-            iqamah_countdown_frame.place_forget()
-        
-
-        iqamah_countdown_time.after(1000, lambda: self.iqamah_countdown(iqamah_countdown_frame, iqamah_countdown_time))
-
-
-
-
+            return False, -1        
 
     def next_prayer_time(self):
         current_time = datetime.now()
