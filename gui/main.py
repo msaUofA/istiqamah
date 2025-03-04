@@ -1,7 +1,6 @@
 from gui import GUI
 def main():
-    gui = GUI()
-    gui.run()
+    GUI().run()
 
 if __name__ == '__main__':
     main()
