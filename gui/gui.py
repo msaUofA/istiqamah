@@ -2,8 +2,10 @@ import ttkbootstrap as ttk
 from prayer_times import read_prayer_times
 from dynamic_updater import DynamicUpdater
 from PIL import Image, ImageTk
+from pathlib import Path
 
 # GREEN = "#3E7D5D"
+ROOT_DIR = Path(__file__).resolve().parent.parent
 GREEN = "#127958"
 DARKER_GREEN = "#0E6146"
 LIGHTER_GREEN = "#16916A"
@@ -18,7 +20,7 @@ class GUI(ttk.Toplevel):
     self.attributes('-fullscreen', True)
     self.bind('<Escape>', lambda event: self.quit())
     self.configure(background='black')
-    self.prayer_times = read_prayer_times('prayertimes2025.csv')
+    self.prayer_times = read_prayer_times(ROOT_DIR / 'prayertimes2025.csv')
     self.updater = DynamicUpdater(self, self.prayer_times)
     
     # Frames
@@ -148,7 +150,7 @@ class RightFrame(ttk.Frame):
     super().__init__(parent)
     self.updater = updater
     self.place(relx=0.43, rely=0, relheight=1, relwidth=0.60)
-    self.logo = ImageTk.PhotoImage((Image.open('../Assets/msalogo.png').resize((360, 180))))
+    self.logo = ImageTk.PhotoImage((Image.open(ROOT_DIR / 'Assets' / 'msalogo.png').resize((360, 180))))
     self.countdown_component = CountdownComponent(self, self.updater)
     self.event_component = None
     self.create_widgets()
