@@ -2,6 +2,7 @@ import csv
 import datetime
 from datetime import datetime
 
+
 def read_prayer_times(filename: str):
 
     prayer_times = {}
@@ -31,7 +32,7 @@ def read_prayer_times(filename: str):
     return prayer_times
 
 
-def next_prayer_time(prayer_times:dict):
+def next_prayer_time(prayer_times: dict):
 
     current_month = datetime.now().strftime('%B')
     current_day = datetime.now().strftime('%d')
@@ -46,7 +47,8 @@ def next_prayer_time(prayer_times:dict):
 
         prayer_time = datetime.strptime(prayer_time, time_format)
 
-        prayer_time = prayer_time.replace(year=current_time.year, month=current_time.month, day=current_time.day)
+        prayer_time = prayer_time.replace(
+            year=current_time.year, month=current_time.month, day=current_time.day)
 
         if prayer_time > current_time:
 
@@ -57,7 +59,8 @@ def next_prayer_time(prayer_times:dict):
     for prayer, prayer_time_str in tomorrow_prayer_times.items():
 
         prayer_time = datetime.strptime(prayer_time_str, time_format)
-        prayer_time = prayer_time.replace(year=current_time.year, month=current_time.month, day=int(current_day) + 1)
+        prayer_time = prayer_time.replace(
+            year=current_time.year, month=current_time.month, day=int(current_day) + 1)
 
         time_difference = (prayer_time - current_time).total_seconds()
 
