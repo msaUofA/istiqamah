@@ -1,3 +1,2 @@
 ttkbootstrap~=1.10.1
-hijri_converter
 pillow~=10.4.0
