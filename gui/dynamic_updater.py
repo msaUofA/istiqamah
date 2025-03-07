@@ -1,6 +1,7 @@
 import time
 from datetime import datetime, timedelta
 
+
 class DynamicUpdater:
     def __init__(self, root, prayer_times):
         self.root = root
@@ -13,7 +14,8 @@ class DynamicUpdater:
             'Maghrib': {'offset_minutes': 5},
             'Isha': {'offset_minutes': 5},
         }
-        self.today_iqamah_times = {'Fajr': None, 'Dhuhr': None, 'Asr': None, 'Maghrib': None, 'Isha': None}
+        self.today_iqamah_times = {
+            'Fajr': None, 'Dhuhr': None, 'Asr': None, 'Maghrib': None, 'Isha': None}
         self.compute_iqamah_times()
         self.check_iqamah_times()
 
@@ -29,12 +31,13 @@ class DynamicUpdater:
         current_date = datetime.now().strftime("%A, %B %d, %Y")
         current_date_str_len = len(current_date)
 
-        #hijri_date_obj = convert.Gregorian(datetime.now().year, datetime.now().month, datetime.now().day).to_hijri()
-        #hijri_date_str = f"{hijri_date_obj.day} {hijri_date_obj.month_name()} {hijri_date_obj.year} AH"
+        # hijri_date_obj = convert.Gregorian(datetime.now().year, datetime.now().month, datetime.now().day).to_hijri()
+        # hijri_date_str = f"{hijri_date_obj.day} {hijri_date_obj.month_name()} {hijri_date_obj.year} AH"
 
         live_date.config(text=f'{current_date:>{current_date_str_len}}')
-        #live_hijri_date.config(text=f'{hijri_date_str:<{current_date_str_len}}')
-        live_date.after(1000, lambda: self.update_date(live_date, live_hijri_date))
+        # live_hijri_date.config(text=f'{hijri_date_str:<{current_date_str_len}}')
+        live_date.after(1000, lambda: self.update_date(
+            live_date, live_hijri_date))
 
     def compute_iqamah_times(self):
         current_month = datetime.now().strftime('%B')
@@ -48,7 +51,8 @@ class DynamicUpdater:
                 continue
             if 'fixed' in iqamah_info:
                 iqamah_time_str = iqamah_info['fixed']
-                iqamah_time = datetime.strptime(str(iqamah_time_str), '%I:%M %p')
+                iqamah_time = datetime.strptime(
+                    str(iqamah_time_str), '%I:%M %p')
                 iqamah_time = iqamah_time.replace(year=datetime.now().year,
                                                   month=datetime.now().month,
                                                   day=datetime.now().day)
@@ -59,7 +63,8 @@ class DynamicUpdater:
                 prayer_time = prayer_time.replace(year=datetime.now().year,
                                                   month=datetime.now().month,
                                                   day=datetime.now().day)
-                iqamah_time = prayer_time + timedelta(minutes=iqamah_info['offset_minutes'])
+                iqamah_time = prayer_time + \
+                    timedelta(minutes=iqamah_info['offset_minutes'])
             else:
                 continue
             iqamah_times[prayer_name] = iqamah_time
@@ -68,9 +73,11 @@ class DynamicUpdater:
 
         # Schedule to recompute after midnight
         now = datetime.now()
-        midnight = datetime.combine(now.date() + timedelta(days=1), datetime.min.time())
+        midnight = datetime.combine(
+            now.date() + timedelta(days=1), datetime.min.time())
         seconds_until_midnight = (midnight - now).total_seconds()
-        self.root.after(int(seconds_until_midnight * 1000), self.compute_iqamah_times)
+        self.root.after(int(seconds_until_midnight * 1000),
+                        self.compute_iqamah_times)
 
     def update_prayer_times(self, prayer_time_entries):
         current_month = datetime.now().strftime('%B')
@@ -78,25 +85,35 @@ class DynamicUpdater:
 
         today_prayer_times = self.prayer_times[current_month][current_day]
 
-        prayer_time_entries['fajr']['adhan'].config(text = f" {today_prayer_times['Fajr'].replace('AM', '').replace('PM', '').strip()}")
-        prayer_time_entries['fajr']['iqamah'].config(text = f"{'7:00'}")
+        prayer_time_entries['fajr']['adhan'].config(
+            text=f" {today_prayer_times['Fajr'].replace('AM', '').replace('PM', '').strip()}")
+        prayer_time_entries['fajr']['iqamah'].config(text=f"{'7:00'}")
 
-        prayer_time_entries['sunrise']['adhan'].config(text = f" {today_prayer_times['Sunrise'].replace('AM', '').replace('PM', '').strip()}")
-        
-        prayer_time_entries['dhuhr']['adhan'].config(text = f"{today_prayer_times['Dhuhr'].replace('AM', '').replace('PM', '').strip()}")
-        prayer_time_entries['dhuhr']['iqamah'].config(text = f"{'1:00'}")
+        prayer_time_entries['sunrise']['adhan'].config(
+            text=f" {today_prayer_times['Sunrise'].replace('AM', '').replace('PM', '').strip()}")
 
-        prayer_time_entries['asr']['adhan'].config(text = f" {today_prayer_times['Asr'].replace('AM', '').replace('PM', '').strip()}")
-        prayer_time_entries['asr']['iqamah'].config(text = f"{self.today_iqamah_times['Asr'].strftime('%I:%M').lstrip('0')}")
+        prayer_time_entries['dhuhr']['adhan'].config(
+            text=f"{today_prayer_times['Dhuhr'].replace('AM', '').replace('PM', '').strip()}")
+        prayer_time_entries['dhuhr']['iqamah'].config(text=f"{'1:00'}")
 
-        prayer_time_entries['maghrib']['adhan'].config(text = f" {today_prayer_times['Maghrib'].replace('AM', '').replace('PM', '').strip()}")
-        prayer_time_entries['maghrib']['iqamah'].config(text = f"{self.today_iqamah_times['Maghrib'].strftime('%I:%M').lstrip('0')}")
+        prayer_time_entries['asr']['adhan'].config(
+            text=f" {today_prayer_times['Asr'].replace('AM', '').replace('PM', '').strip()}")
+        prayer_time_entries['asr']['iqamah'].config(
+            text=f"{self.today_iqamah_times['Asr'].strftime('%I:%M').lstrip('0')}")
 
-        prayer_time_entries['isha']['adhan'].config(text = f" {today_prayer_times['Isha'].replace('AM', '').replace('PM', '').strip()}")
-        prayer_time_entries['isha']['iqamah'].config(text = f"{self.today_iqamah_times['Isha'].strftime('%I:%M').lstrip('0')}")
+        prayer_time_entries['maghrib']['adhan'].config(
+            text=f" {today_prayer_times['Maghrib'].replace('AM', '').replace('PM', '').strip()}")
+        prayer_time_entries['maghrib']['iqamah'].config(
+            text=f"{self.today_iqamah_times['Maghrib'].strftime('%I:%M').lstrip('0')}")
+
+        prayer_time_entries['isha']['adhan'].config(
+            text=f" {today_prayer_times['Isha'].replace('AM', '').replace('PM', '').strip()}")
+        prayer_time_entries['isha']['iqamah'].config(
+            text=f"{self.today_iqamah_times['Isha'].strftime('%I:%M').lstrip('0')}")
 
         # Schedule next update
-        (prayer_time_entries['fajr']['adhan']).after(1000, lambda: self.update_prayer_times(prayer_time_entries))
+        (prayer_time_entries['fajr']['adhan']).after(
+            1000, lambda: self.update_prayer_times(prayer_time_entries))
 
     def countdown(self, countdown_prayer_label, countdown_time_label):
         next_prayer, time_difference = self.next_prayer_time()
@@ -111,7 +128,8 @@ class DynamicUpdater:
         countdown_prayer_label.config(text=countdown_str_prayer.upper())
         countdown_time_label.config(text=countdown_str_time)
 
-        countdown_time_label.after(1000, lambda: self.countdown(countdown_prayer_label, countdown_time_label))
+        countdown_time_label.after(1000, lambda: self.countdown(
+            countdown_prayer_label, countdown_time_label))
 
     def next_prayer_time(self):
         current_time = datetime.now()
@@ -124,7 +142,8 @@ class DynamicUpdater:
 
         for prayer, prayer_time_str in today_prayer_times.items():
             prayer_time = datetime.strptime(prayer_time_str, time_format)
-            prayer_time = prayer_time.replace(year=current_time.year, month=current_time.month, day=current_time.day)
+            prayer_time = prayer_time.replace(
+                year=current_time.year, month=current_time.month, day=current_time.day)
 
             if prayer_time > current_time:
                 time_difference = (prayer_time - current_time).total_seconds()
@@ -138,7 +157,8 @@ class DynamicUpdater:
 
         for prayer, prayer_time_str in tomorrow_prayer_times.items():
             prayer_time = datetime.strptime(prayer_time_str, time_format)
-            prayer_time = prayer_time.replace(year=tomorrow.year, month=tomorrow.month, day=tomorrow.day)
+            prayer_time = prayer_time.replace(
+                year=tomorrow.year, month=tomorrow.month, day=tomorrow.day)
 
             time_difference = (prayer_time - current_time).total_seconds()
             return prayer, time_difference
@@ -153,4 +173,3 @@ class DynamicUpdater:
 
         # Schedule the next check
         self.root.after(1000, self.check_iqamah_times)
-
