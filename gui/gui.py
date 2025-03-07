@@ -12,7 +12,7 @@ WHITE = "#F5F5F5"
 DGRAY = "#141414"
 LGRAY = "#A9A9A9"
 
-class GUI(ttk.Toplevel):
+class GUI(ttk.tk.Tk):
   def __init__(self):
     super().__init__()
     self.attributes('-fullscreen', True)
