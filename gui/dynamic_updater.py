@@ -15,7 +15,7 @@ class DynamicUpdater:
         self.root = root
         self.prayer_times = prayer_times
         self.iqamah_config = {
-            'Fajr': {'fixed': '7:00 AM'},
+            'Fajr': {'offset_minutes': 20},
             'Sunrise': None,
             'Dhuhr': {'fixed': '2:00 PM'},
             'Asr': {'offset_minutes': 5},
@@ -45,27 +45,13 @@ class DynamicUpdater:
         #live_hijri_date.config(text=f'{hijri_date_str:<{current_date_str_len}}')
         live_date.after(1000, lambda: self.update_date(live_date, live_hijri_date))
     
-    def check_daylight_savings(self):
-
-        local_timezone = pytz.timezone("America/Edmonton")
-        local_time = datetime.now(local_timezone)
-
-        return local_time.dst()
-    
+                
     def compute_iqamah_times(self):
         current_month = datetime.now().strftime('%B')
         current_day = int(datetime.now().strftime('%d'))
 
         today_prayer_times = self.prayer_times[current_month][current_day]
         iqamah_times = {}
-        
-        if self.check_daylight_savings():
-            self.iqamah_config['Dhuhr']['fixed'] = "2:00 PM"
-            self.iqamah_config['Fajr'] = {'offset_minutes': 20}
-
-        else:
-            self.iqamah_config['Dhuhr']['fixed'] = "1:00 PM"
-            self.iqamah_config['Fajr'] = {'fixed': '7:00 AM'}
 
         for prayer_name, iqamah_info in self.iqamah_config.items():
             if iqamah_info is None:
