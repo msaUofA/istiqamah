@@ -16,7 +16,7 @@ class DynamicUpdater:
         self.root = root
         self.prayer_times = prayer_times
         self.iqamah_config = {
-            'Fajr': {'fixed': '6:00 AM'},
+            'Fajr': {'fixed': '7:00 AM'},
             'Sunrise': None,
             'Dhuhr': {'fixed': '2:00 PM'},
             'Asr': {'offset_minutes': 5},
@@ -66,7 +66,7 @@ class DynamicUpdater:
 
         else:
             self.iqamah_config['Dhuhr']['fixed'] = "1:00 PM"
-            self.iqamah_config['Fajr'] = {'fixed': '6:00 AM'}
+            self.iqamah_config['Fajr'] = {'fixed': '7:00 AM'}
 
         for prayer_name, iqamah_info in self.iqamah_config.items():
             if iqamah_info is None:
