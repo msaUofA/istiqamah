@@ -1,0 +1,12 @@
+import pytz
+from datetime import datetime
+
+# Define timezone
+tz = pytz.timezone('America/Edmonton')
+
+# Get the current time in the timezone
+now = datetime.now(tz)
+print(now.strftime('%Y-%m-%d %I:%M %p %Z'))
+
+if now.dst():
+  print("Daylight savings")

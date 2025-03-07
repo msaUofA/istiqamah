@@ -12,7 +12,7 @@ WHITE = "#F5F5F5"
 DGRAY = "#141414"
 LGRAY = "#A9A9A9"
 
-class GUI(ttk.Toplevel):
+class GUI(ttk.tk.Tk):
   def __init__(self):
     super().__init__()
     self.attributes('-fullscreen', True)
@@ -77,7 +77,7 @@ class PrayerTimesComponenet(ttk.Frame):
 
     dhuhr_label = ttk.Label(prayer_label_master, text='Dhuhr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
     dhuhr_adhan_label = ttk.Label(prayer_label_master, text='1:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
-    dhuhr_iqamah_label = ttk.Label(prayer_label_master, text='1:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    dhuhr_iqamah_label = ttk.Label(prayer_label_master, text='2:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
 
     asr_label = ttk.Label(prayer_label_master, text='Asr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
     asr_adhan_label = ttk.Label(prayer_label_master, text='3:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
@@ -148,7 +148,7 @@ class RightFrame(ttk.Frame):
     super().__init__(parent)
     self.updater = updater
     self.place(relx=0.43, rely=0, relheight=1, relwidth=0.60)
-    self.logo = ImageTk.PhotoImage((Image.open('../Assets/msalogo.png').resize((360, 180))))
+    self.logo = ImageTk.PhotoImage((Image.open('Assets/msalogo.png').resize((360, 180))))
     self.countdown_component = CountdownComponent(self, self.updater)
     self.event_component = None
     self.create_widgets()
@@ -190,6 +190,7 @@ class CountdownComponent(ttk.Frame):
     hour_header = ttk.Label(countdown_headers_frame, text='HOURS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
     minute_header = ttk.Label(countdown_headers_frame, text='MINUTES', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
     second_header = ttk.Label(countdown_headers_frame, text='SECONDS', font=('Arial', 15, 'bold', 'italic'), foreground=DGRAY, background=GOLD, anchor='center')
+
 
     def pack_widgets():
       main_frame.pack(side = 'left', fill='both', expand=True)
