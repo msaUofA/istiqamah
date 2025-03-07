@@ -1,6 +1,5 @@
 import time
 import pytz
-import pygame
 from datetime import datetime, timedelta
 
 GREEN = "#127958"
