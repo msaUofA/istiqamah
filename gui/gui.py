@@ -77,7 +77,7 @@ class PrayerTimesComponenet(ttk.Frame):
 
     dhuhr_label = ttk.Label(prayer_label_master, text='Dhuhr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
     dhuhr_adhan_label = ttk.Label(prayer_label_master, text='1:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
-    dhuhr_iqamah_label = ttk.Label(prayer_label_master, text='1:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
+    dhuhr_iqamah_label = ttk.Label(prayer_label_master, text='2:15 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
 
     asr_label = ttk.Label(prayer_label_master, text='Asr', font= prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)
     asr_adhan_label = ttk.Label(prayer_label_master, text='3:00 PM', font=prayer_label_font, foreground=prayer_label_foreground, background=GREEN, anchor=prayer_label_anchor)

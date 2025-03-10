@@ -16,9 +16,9 @@ class DynamicUpdater:
         self.root = root
         self.prayer_times = prayer_times
         self.iqamah_config = {
-            'Fajr': {'fixed': '7:00 AM'},
+            'Fajr': {'fixed': '6:00 AM'},
             'Sunrise': None,
-            'Dhuhr': {'fixed': '1:00 PM'},
+            'Dhuhr': {'fixed': '2:00 PM'},
             'Asr': {'offset_minutes': 5},
             'Maghrib': {'offset_minutes': 5},
             'Isha': {'offset_minutes': 5},
@@ -26,8 +26,6 @@ class DynamicUpdater:
         self.today_iqamah_times = {'Fajr': None, 'Dhuhr': None, 'Asr': None, 'Maghrib': None, 'Isha': None}
         self.compute_iqamah_times()
         self.check_iqamah_times()
-        self.mixer = pygame.mixer.init()
-        self.sound = self.mixer.Sound()
 
     def update_clock(self, live_clock):
         current_time = time.strftime("%I:%M %p")
@@ -68,7 +66,7 @@ class DynamicUpdater:
 
         else:
             self.iqamah_config['Dhuhr']['fixed'] = "1:00 PM"
-            self.iqamah_config['Fajr'] = {'fixed': '7:00 AM'}
+            self.iqamah_config['Fajr'] = {'fixed': '6:00 AM'}
 
         for prayer_name, iqamah_info in self.iqamah_config.items():
             if iqamah_info is None:
@@ -106,12 +104,12 @@ class DynamicUpdater:
         today_prayer_times = self.prayer_times[current_month][current_day]
 
         prayer_time_entries['fajr']['adhan'].config(text = f" {today_prayer_times['Fajr'].replace('AM', '').replace('PM', '').strip()}")
-        prayer_time_entries['fajr']['iqamah'].config(text = f"{'7:00'}")
+        prayer_time_entries['fajr']['iqamah'].config(text = f"{self.today_iqamah_times['Fajr'].strftime('%I:%M').lstrip('0')}")
 
         prayer_time_entries['sunrise']['adhan'].config(text = f" {today_prayer_times['Sunrise'].replace('AM', '').replace('PM', '').strip()}")
         
         prayer_time_entries['dhuhr']['adhan'].config(text = f"{today_prayer_times['Dhuhr'].replace('AM', '').replace('PM', '').strip()}")
-        prayer_time_entries['dhuhr']['iqamah'].config(text = f"{'1:00'}")
+        prayer_time_entries['dhuhr']['iqamah'].config(text = f"{self.today_iqamah_times['Dhuhr'].strftime('%I:%M').lstrip('0')}")
 
         prayer_time_entries['asr']['adhan'].config(text = f" {today_prayer_times['Asr'].replace('AM', '').replace('PM', '').strip()}")
         prayer_time_entries['asr']['iqamah'].config(text = f"{self.today_iqamah_times['Asr'].strftime('%I:%M').lstrip('0')}")
@@ -231,8 +229,6 @@ class DynamicUpdater:
         # There are no more iqamah times today, return -1 until next day
         return None, -1
         
-
-
     def check_iqamah_times(self):
         current_time = datetime.now()
         for prayer_name, iqamah_time in self.today_iqamah_times.items():
